@@ -1,18 +1,22 @@
 from os import path
+import sys
 import requests
 from datetime import date
 
 
 def input_path(day: int):
-    return f"data/input{str(day).zfill(2)}.txt"
+    folder = sys.path[0] + "/"
+    return f"{folder}data/input{str(day).zfill(2)}.txt"
 
 
 def download_input(day: int):
+    folder_path = sys.path[0]
+    cookie_path = folder_path + "/" + "cookie.txt"
     # Get session cookie
-    if not path.exists("cookie.txt"):
+    if not path.exists(cookie_path):
         raise FileNotFoundError("You need to store the cookie from AoC")
-    
-    with open("cookie.txt", "r") as f:
+
+    with open(cookie_path, "r") as f:
         cookie = f.read()
 
     # Get today's date and make request
@@ -20,7 +24,7 @@ def download_input(day: int):
     request = requests.get(url, cookies={"session": cookie})
 
     # Save to file
-    if not path.exists("data"):
+    if not path.exists(folder_path + "data"):
         raise FileNotFoundError("You need to create an empty folder named 'data'")
 
     with open(input_path(day), "w") as f:
