@@ -1,8 +1,8 @@
 from utils import get_input
 
 
-def parse_input(data: str):
-    file_tree = {"": {"size": 0, "depth": 0}}
+def parse_input(data):
+    file_tree = {"": {"parent": "", "size": 0, "depth": 0}}
     currentDir, currentSize = "", 0
     for d in data[1:]:
         if d.startswith("$ cd"):

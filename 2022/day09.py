@@ -1,6 +1,8 @@
-import numpy as np
 from utils import get_input
+import numpy as np
+from numpy.typing import NDArray
 
+step = tuple[NDArray, int]
 
 move_dict = {
     "R": np.array([1, 0]),
@@ -10,13 +12,13 @@ move_dict = {
 }
 
 
-def calc_move(dist: np.array):
+def calc_move(dist: NDArray):
     if any(dist == 0):
         return dist // 2
     return np.sign(dist)
 
 
-def simulate_rope(steps, rope_length: int):
+def simulate_rope(steps: list[step], rope_length: int):
     start = [0, 0]
     rope_pos = np.zeros((rope_length, 2))
     tail_path = [start]
