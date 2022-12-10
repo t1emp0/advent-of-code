@@ -16,8 +16,12 @@ def part1(ops):
     print("Total strength:", strength)
 
 
+def part1_oneliner_compact(ops):
+    print(reduce(lambda o,n:(o[0]+((n[0]+1)*o[1]if n[0]in range(19,220,40)else 0),o[1]+n[1]),enumerate(ops),(0,1))[0])
+
+
 def part1_oneliner(ops):
-    print("Total strength:", reduce(lambda old, new: (old[0]+ ((new[0] + 1) * old[1] if (new[0] + 1) % 40 != 0 and (new[0] + 1) % 20 == 0 else 0), old[1] + new[1]), enumerate(ops), (0, 1))[0])
+    print("Total strength:", reduce(lambda old, new: (old[0]+ ((new[0] + 1) * old[1] if new[0] in range(19, 220, 40) else 0), old[1] + new[1]), enumerate(ops), (0, 1))[0])
 
 
 def part1_oneliner_expanded(ops):
@@ -25,12 +29,7 @@ def part1_oneliner_expanded(ops):
     # new = (cycle-1, instr)
     strength = reduce(
         lambda old, new: (
-            old[0]
-            + (
-                (new[0] + 1) * old[1]
-                if (new[0] + 1) % 40 != 0 and (new[0] + 1) % 20 == 0
-                else 0
-            ),
+            old[0] + ((new[0] + 1) * old[1] if new[0] in range(19, 220, 40) else 0),
             old[1] + new[1],
         ),
         enumerate(ops),
@@ -65,4 +64,6 @@ if __name__ == "__main__":
     part2(ops)
 
     ops_oneliner = sum([[0] + [int(d.split(" ")[1])] if len(d.split(" ")) == 2 else [0] for d in data], [])
+    part1_oneliner_compact(ops_oneliner)
     part1_oneliner(ops_oneliner)
+    part1_oneliner_expanded(ops_oneliner)
