@@ -3,15 +3,12 @@ from functools import reduce
 
 
 def part1(ops):
-    cycle, reg = 0, 1
-    strength = 0
+    strength, reg = 0, 1
 
-    for instr in ops:
-        for _ in range(1 if instr[0] == "noop" else 2):
-            cycle += 1
-            if cycle % 40 != 0 and cycle % 20 == 0:
-                strength += cycle * reg
-        reg += int(instr[1]) if len(instr) > 1 else 0
+    for cycle, instr in enumerate(ops):
+        if cycle in range(19, 220, 40):
+            strength += (cycle + 1) * reg
+        reg += instr
 
     print("Total strength:", strength)
 
@@ -40,30 +37,33 @@ def part1_oneliner_expanded(ops):
 
 
 def part2(ops):
-    cycle, reg = 0, 1
+    reg = 1
     screen, line = [], ""
 
-    for instr in ops:
-        for _ in range(1 if instr[0] == "noop" else 2):
-            cycle += 1
-            line += "#" if abs((cycle - 1) % 40 - reg) < 2 else "."
-            if cycle % 40 == 0:
-                screen.append(line)
-                line = ""
-        reg += int(instr[1]) if len(instr) > 1 else 0
+    for cycle, instr in enumerate(ops):
+        line += "#" if abs((cycle) % 40 - reg) < 2 else "."
+        if (cycle + 1) % 40 == 0:
+            screen.append(line)
+            line = ""
+        reg += instr
 
     with open("day10_output.txt", "w") as f:
         f.writelines("\n".join(screen))
-    print("Output written")
+    print("Part 2: Output written")
 
 
 if __name__ == "__main__":
     data = get_input(day=10)
-    ops = [d.split(" ") for d in data]
-    part1(ops)
-    part2(ops)
 
-    ops_oneliner = sum([[0] + [int(d.split(" ")[1])] if len(d.split(" ")) == 2 else [0] for d in data], [])
+    # Adjust operations, so that addx takes 2 cycles and noop adds 0 to reg
+    ops_oneliner = sum(
+        [[0] + [int(d.split(" ")[1])] if len(d.split(" ")) == 2 else [0] for d in data],
+        [],
+    )
+
+    part1(ops_oneliner)
+    part2(ops_oneliner)
+
     part1_oneliner_compact(ops_oneliner)
     part1_oneliner(ops_oneliner)
     part1_oneliner_expanded(ops_oneliner)
