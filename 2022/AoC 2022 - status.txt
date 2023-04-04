@@ -1,0 +1,19 @@
+Advent of Code 2022
+
+== Problems status ==
+
+1 star:
+	17 (pending part 2 optimization)
+	25 (pending completion of previous days)
+
+Passing example but not part 1:
+	20
+	22
+
+Started but not passing example:
+	16
+	19
+
+Not started:
+	13
+	24
