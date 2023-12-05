@@ -1,8 +1,7 @@
 # %%
-example = """"""
-
-#%%
 from utils import get_input
+
+example = """"""
 
 
 def part1(data):
